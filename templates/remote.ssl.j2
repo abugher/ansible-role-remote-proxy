@@ -1,8 +1,8 @@
 server {
   listen 443 ssl;
-  ssl_certificate /etc/nginx/{{ inventory_hostname }}.crt;
-  ssl_certificate_key /etc/nginx/{{ inventory_hostname }}.key;
-  server_name remote remote.neuronpointer.net;
+  ssl_certificate       /etc/ssl/certs/{{ inventory_hostname }}.pem;
+  ssl_certificate_key   /etc/ssl/private/{{ inventory_hostname }}.pem;
+  server_name           remote remote.{{ domain }};
 
   access_log /var/log/nginx/remote.access.log;
 
