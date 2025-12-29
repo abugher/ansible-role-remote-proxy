@@ -1,33 +1,33 @@
 server {
   listen 443 ssl;
-  ssl_certificate       /etc/ssl/certs/chain.pem;
-  ssl_certificate_key   /etc/ssl/private/{{ inventory_hostname }}.pem;
-  server_name           remote remote.{{ domain }};
+  ssl_certificate               /etc/ssl/certs/chain.pem;
+  ssl_certificate_key           /etc/ssl/private/{{ inventory_hostname }}.pem;
+
+  server_name                   remote remote.{{ domain }};
 
   access_log /var/log/nginx/remote.access.log;
 
   location / {
-    proxy_pass http://meliora/;
-
-    auth_basic "remote control";
-    auth_basic_user_file htpasswd;
+    proxy_pass                  {{ proxy_target }};
+    auth_basic                  "remote control";
+    auth_basic_user_file        /etc/smokeping-proxy/htpasswd.users;
   }
 
   location /cgi-bin/ {
-    proxy_pass http://meliora/cgi-bin/;
+    proxy_pass                  {{ proxy_target }}/cgi-bin/;
   }
 
   location /cgi-bin/mplayer/ {
-    proxy_pass http://meliora/cgi-bin/mplayer/;
+    proxy_pass                  {{ proxy_target }}/cgi-bin/mplayer/;
   }
 
   location /cgi-bin/pianobar/ {
-    proxy_pass http://meliora/cgi-bin/pianobar/;
+    proxy_pass                  {{ proxy_target }}/cgi-bin/pianobar/;
   }
 
 
   error_page 500 502 503 504 /50x.html;
   location = /50x.html {
-    root /var/www/nginx-default;
+    root                        /var/www/nginx-default;
   }
 }

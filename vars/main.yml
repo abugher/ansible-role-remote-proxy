@@ -1,16 +1,28 @@
 ---
+proxy_target:           'http://remote.neuronpointer.net'
+create_files:
+  - owner:              'root'
+    group:              'www-data'
+    mode:               '0750'
+    path:               '/etc/remote-proxy'
+    state:              'directory'
 template_files:
   - owner:              'root'
     group:              'root'
     mode:               '0644'
     src:                "{{ role_path }}/templates/remote.ssl.j2"
     dest:               "/etc/nginx/sites-available/remote.ssl"
-install_files:
   - owner:              'root'
     group:              'root'
     mode:               '0644'
-    src:                "{{ role_path }}/files/conf/remote"
+    src:                "{{ role_path }}/templates/remote.j2"
     dest:               "/etc/nginx/sites-available/remote"
+install_files:
+  - owner:              'root'
+    group:              'www-data'
+    mode:               '0640'
+    src:                '../../sensitive-ansible/roles/remote-proxy/files/conf/htpasswd.users'
+    dest:               '/etc/remote-proxy/htpasswd.users'
 symlinks:
   - owner:              'root'
     group:              'root'
