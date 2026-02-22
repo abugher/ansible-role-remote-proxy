@@ -21,7 +21,7 @@ install_files:
   - owner:              'root'
     group:              'www-data'
     mode:               '0640'
-    src:                '../../sensitive-ansible/roles/remote-proxy/files/conf/htpasswd.users'
+    src:                'sensitive/files/conf/htpasswd.users'
     dest:               '/etc/remote-proxy/htpasswd.users'
 symlinks:
   - owner:              'root'
